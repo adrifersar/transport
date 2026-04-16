@@ -1,0 +1,760 @@
+openapi: 3.0.0
+paths:
+  /api:
+    get:
+      operationId: AppController_getHello
+      parameters: []
+      responses:
+        '200':
+          description: ''
+      tags:
+        - App
+  /api/driver:
+    post:
+      operationId: DriverController_create
+      parameters: []
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/CreateDriverDto'
+      responses:
+        '201':
+          description: Product was created
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Driver'
+        '400':
+          description: Bad request
+        '403':
+          description: Token related
+      tags: &ref_0
+        - Driver
+  /api/driver/search:
+    get:
+      operationId: DriverController_findAll
+      parameters:
+        - name: limit
+          required: false
+          in: query
+          description: How many rows do you need
+          schema:
+            default: 10
+            type: number
+        - name: page
+          required: false
+          in: query
+          description: How many rows do you want skip
+          schema:
+            default: 1
+            type: number
+        - name: fullName
+          required: false
+          in: query
+          description: Nombre del chofer
+          schema:
+            type: string
+        - name: address
+          required: false
+          in: query
+          description: Dirección del chofer
+          schema:
+            type: string
+        - name: idCard
+          required: false
+          in: query
+          description: Identificación
+          schema:
+            type: string
+        - name: isActive
+          required: false
+          in: query
+          schema:
+            default: true
+            type: boolean
+        - name: status
+          required: false
+          in: query
+          description: status del chofer
+          schema:
+            type: string
+            enum:
+              - vacaciones
+              - franco
+              - trabajando en la ciudad
+              - interior
+              - disponible
+              - otro
+        - name: dateIn
+          required: false
+          in: query
+          description: Fecha del status(inicio)
+          schema:
+            format: YYMMDDHHMM
+            type: string
+        - name: dateEnd
+          required: false
+          in: query
+          description: Fecha del status(fin)
+          schema:
+            format: YYMMDDHHMM
+            type: string
+      responses:
+        '200':
+          description: ''
+      summary: Búsqueda personalizada
+      tags: *ref_0
+  /api/driver/{id}:
+    get:
+      operationId: DriverController_findOne
+      parameters:
+        - name: id
+          required: true
+          in: path
+          schema:
+            type: string
+      responses:
+        '200':
+          description: ''
+      tags: *ref_0
+    patch:
+      operationId: DriverController_update
+      parameters:
+        - name: id
+          required: true
+          in: path
+          schema:
+            type: string
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/UpdateDriverDto'
+      responses:
+        '200':
+          description: ''
+      tags: *ref_0
+    delete:
+      operationId: DriverController_remove
+      parameters:
+        - name: id
+          required: true
+          in: path
+          schema:
+            type: string
+      responses:
+        '200':
+          description: ''
+      tags: *ref_0
+  /api/vehicle:
+    post:
+      operationId: VehicleController_create
+      parameters: []
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/CreateVehicleDto'
+      responses:
+        '201':
+          description: ''
+      tags: &ref_1
+        - Vehicle
+  /api/vehicle/search:
+    get:
+      operationId: VehicleController_findAll
+      parameters:
+        - name: limit
+          required: false
+          in: query
+          description: How many rows do you need
+          schema:
+            default: 10
+            type: number
+        - name: page
+          required: false
+          in: query
+          description: How many rows do you want skip
+          schema:
+            default: 1
+            type: number
+        - name: numCar
+          required: false
+          in: query
+          schema:
+            type: string
+        - name: seatCount
+          required: false
+          in: query
+          schema:
+            type: number
+        - name: currentMileage
+          required: false
+          in: query
+          schema:
+            type: number
+        - name: brand
+          required: false
+          in: query
+          schema:
+            type: string
+        - name: isActive
+          required: false
+          in: query
+          schema:
+            type: boolean
+        - name: status
+          required: false
+          in: query
+          description: status del chofer
+          schema:
+            type: string
+            enum:
+              - trabajando en la ciudad
+              - interior
+              - disponible
+              - taller
+              - otro
+        - name: dateIn
+          required: false
+          in: query
+          description: Fecha del status(inicio)
+          schema:
+            format: YYMMDDHHMM
+            type: string
+        - name: dateEnd
+          required: false
+          in: query
+          description: Fecha del status(fin)
+          schema:
+            format: YYMMDDHHMM
+            type: string
+      responses:
+        '200':
+          description: ''
+      tags: *ref_1
+  /api/vehicle/{id}:
+    get:
+      operationId: VehicleController_findOne
+      parameters:
+        - name: id
+          required: true
+          in: path
+          schema:
+            type: string
+      responses:
+        '200':
+          description: ''
+      tags: *ref_1
+    patch:
+      operationId: VehicleController_update
+      parameters:
+        - name: id
+          required: true
+          in: path
+          schema:
+            type: string
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/UpdateVehicleDto'
+      responses:
+        '200':
+          description: ''
+      tags: *ref_1
+    delete:
+      operationId: VehicleController_remove
+      parameters:
+        - name: id
+          required: true
+          in: path
+          schema:
+            type: string
+      responses:
+        '200':
+          description: ''
+      tags: *ref_1
+  /api/user:
+    get:
+      operationId: UserController_findAll
+      parameters: []
+      responses:
+        '200':
+          description: ''
+      tags:
+        - User
+  /api/programming:
+    post:
+      operationId: ProgrammingController_create
+      parameters: []
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/CreateProgrammingDto'
+      responses:
+        '201':
+          description: ''
+      tags: &ref_2
+        - Programming
+  /api/programming/search:
+    get:
+      operationId: ProgrammingController_findAll
+      parameters:
+        - name: limit
+          required: false
+          in: query
+          description: How many rows do you need
+          schema:
+            default: 10
+            type: number
+        - name: page
+          required: false
+          in: query
+          description: How many rows do you want skip
+          schema:
+            default: 1
+            type: number
+        - name: isActive
+          required: false
+          in: query
+          description: Estado activo del vehículo
+          schema:
+            type: boolean
+        - name: typeProgramming
+          required: false
+          in: query
+          description: Tipo de programación del vehículo
+          schema:
+            type: string
+            enum:
+              - transfer
+              - visita
+              - circuito
+              - excursión
+              - libre
+        - name: description
+          required: false
+          in: query
+          description: Descripción del recorrido
+          schema:
+            maxLength: 250
+            type: string
+        - name: time
+          required: false
+          in: query
+          description: Tiempo del recorrido
+          schema:
+            maxLength: 50
+            type: string
+        - name: maxMileage
+          required: false
+          in: query
+          description: Kilometraje máximo
+          schema:
+            minimum: 0
+            maximum: 9999999.99
+            type: number
+        - name: minMileage
+          required: false
+          in: query
+          description: Kilometraje mínimo
+          schema:
+            minimum: 0
+            maximum: 9999999.99
+            type: number
+      responses:
+        '200':
+          description: ''
+      tags: *ref_2
+  /api/programming/{id}:
+    get:
+      operationId: ProgrammingController_findOne
+      parameters:
+        - name: id
+          required: true
+          in: path
+          schema:
+            type: string
+      responses:
+        '200':
+          description: ''
+      tags: *ref_2
+    patch:
+      operationId: ProgrammingController_update
+      parameters:
+        - name: id
+          required: true
+          in: path
+          schema:
+            type: string
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/UpdateProgrammingDto'
+      responses:
+        '200':
+          description: ''
+      tags: *ref_2
+    delete:
+      operationId: ProgrammingController_remove
+      parameters:
+        - name: id
+          required: true
+          in: path
+          schema:
+            type: string
+      responses:
+        '200':
+          description: ''
+      tags: *ref_2
+  /api/category-driver:
+    post:
+      operationId: CategoryDriverController_create
+      parameters: []
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/CreateCategoryDriverDto'
+      responses:
+        '201':
+          description: ''
+      tags: &ref_3
+        - CategoryDriver
+  /api/category-driver/search:
+    get:
+      operationId: CategoryDriverController_findAll
+      parameters:
+        - name: limit
+          required: false
+          in: query
+          description: How many rows do you need
+          schema:
+            default: 10
+            type: number
+        - name: page
+          required: false
+          in: query
+          description: How many rows do you want skip
+          schema:
+            default: 1
+            type: number
+        - name: description
+          required: false
+          in: query
+          description: Descripción de la categoría (búsqueda parcial)
+          schema:
+            example: A
+            type: string
+      responses:
+        '200':
+          description: ''
+      tags: *ref_3
+  /api/category-driver/{id}:
+    get:
+      operationId: CategoryDriverController_findOne
+      parameters:
+        - name: id
+          required: true
+          in: path
+          schema:
+            type: string
+      responses:
+        '200':
+          description: ''
+      tags: *ref_3
+    patch:
+      operationId: CategoryDriverController_update
+      parameters:
+        - name: id
+          required: true
+          in: path
+          schema:
+            type: string
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/UpdateCategoryDriverDto'
+      responses:
+        '200':
+          description: ''
+      tags: *ref_3
+    delete:
+      operationId: CategoryDriverController_remove
+      parameters:
+        - name: id
+          required: true
+          in: path
+          schema:
+            type: string
+      responses:
+        '200':
+          description: ''
+      tags: *ref_3
+info:
+  title: Transport api
+  description: Transport endpoints
+  version: '1.0'
+  contact: {}
+tags: []
+servers: []
+components:
+  securitySchemes:
+    JWT-auth:
+      scheme: bearer
+      bearerFormat: JWT
+      type: http
+  schemas:
+    CreateDriverDto:
+      type: object
+      properties:
+        fullName:
+          type: string
+          example: Alonso Fernandez
+          description: Nombre del chofer
+        address:
+          type: string
+          example: calle O e/ 23 y 21
+          description: Dirección del chofer
+        idCard:
+          type: string
+          description: Identificación
+        isActive:
+          type: boolean
+          description: Chofer activo
+          default: true
+        status:
+          type: string
+          example: disponible
+          description: status del chofer
+          enum: &ref_4
+            - vacaciones
+            - franco
+            - trabajando en la ciudad
+            - interior
+            - disponible
+            - otro
+          default: disponible
+        dateIn:
+          type: string
+          description: Fecha del status(inicio)
+          format: YYMMDDHHMM
+        dateEnd:
+          type: string
+          description: Fecha del status(fin)
+          format: YYMMDDHHMM
+        assignedCar:
+          type: string
+      required:
+        - fullName
+        - address
+        - idCard
+        - isActive
+    Driver:
+      type: object
+      properties: {}
+    UpdateDriverDto:
+      type: object
+      properties:
+        fullName:
+          type: string
+          example: Alonso Fernandez
+          description: Nombre del chofer
+        address:
+          type: string
+          example: calle O e/ 23 y 21
+          description: Dirección del chofer
+        idCard:
+          type: string
+          description: Identificación
+        isActive:
+          type: boolean
+          description: Chofer activo
+          default: true
+        status:
+          type: string
+          example: disponible
+          description: status del chofer
+          enum: *ref_4
+          default: disponible
+        dateIn:
+          type: string
+          description: Fecha del status(inicio)
+          format: YYMMDDHHMM
+        dateEnd:
+          type: string
+          description: Fecha del status(fin)
+          format: YYMMDDHHMM
+        assignedCar:
+          type: string
+    CreateVehicleDto:
+      type: object
+      properties:
+        numCar:
+          type: string
+          example: ABC1234
+        seatCount:
+          type: number
+          example: 4
+        currentMileage:
+          type: number
+          example: 15000.5
+        brand:
+          type: string
+          example: Toyota
+        isActive:
+          type: boolean
+          default: true
+        dateIn:
+          type: string
+          description: Fecha del status(inicio)
+          format: YYMMDDHHMM
+        dateEnd:
+          type: string
+          description: Fecha del status(fin)
+          format: YYMMDDHHMM
+        status:
+          type: string
+          example: disponible
+          description: status del carro
+          enum: &ref_5
+            - trabajando en la ciudad
+            - interior
+            - disponible
+            - taller
+            - otro
+          default: disponible
+      required:
+        - numCar
+        - seatCount
+        - brand
+    UpdateVehicleDto:
+      type: object
+      properties:
+        numCar:
+          type: string
+          example: ABC1234
+        seatCount:
+          type: number
+          example: 4
+        currentMileage:
+          type: number
+          example: 15000.5
+        brand:
+          type: string
+          example: Toyota
+        isActive:
+          type: boolean
+          default: true
+        dateIn:
+          type: string
+          description: Fecha del status(inicio)
+          format: YYMMDDHHMM
+        dateEnd:
+          type: string
+          description: Fecha del status(fin)
+          format: YYMMDDHHMM
+        status:
+          type: string
+          example: disponible
+          description: status del carro
+          enum: *ref_5
+          default: disponible
+    CreateProgrammingDto:
+      type: object
+      properties:
+        isActive:
+          type: boolean
+          example: true
+          description: Estado activo del vehículo
+          default: true
+        typeProgramming:
+          type: string
+          example: libre
+          description: Tipo de programación del vehículo
+          enum: &ref_6
+            - transfer
+            - visita
+            - circuito
+            - excursión
+            - libre
+          default: libre
+        currentMileage:
+          type: number
+          example: 15000.5
+          description: Kilometraje actual del vehículo
+          minimum: 0
+          maximum: 9999999.99
+        description:
+          type: string
+          example: Vehículo familiar en buen estado
+          description: Descripción del recorrido
+          maxLength: 120
+        time:
+          type: string
+          example: '08:00'
+          description: Hora asociada al vehículo (formato HH:mm)
+          maxLength: 50
+    UpdateProgrammingDto:
+      type: object
+      properties:
+        isActive:
+          type: boolean
+          example: true
+          description: Estado activo del vehículo
+          default: true
+        typeProgramming:
+          type: string
+          example: libre
+          description: Tipo de programación del vehículo
+          enum: *ref_6
+          default: libre
+        currentMileage:
+          type: number
+          example: 15000.5
+          description: Kilometraje actual del vehículo
+          minimum: 0
+          maximum: 9999999.99
+        description:
+          type: string
+          example: Vehículo familiar en buen estado
+          description: Descripción del recorrido
+          maxLength: 120
+        time:
+          type: string
+          example: '08:00'
+          description: Hora asociada al vehículo (formato HH:mm)
+          maxLength: 50
+    CreateCategoryDriverDto:
+      type: object
+      properties:
+        description:
+          type: string
+          description: Descripción de la categoría (2 caracteres)
+          example: A1
+          maxLength: 2
+          minLength: 2
+      required:
+        - description
+    UpdateCategoryDriverDto:
+      type: object
+      properties:
+        description:
+          type: string
+          description: Descripción de la categoría (2 caracteres)
+          example: A1
+          maxLength: 2
+          minLength: 2

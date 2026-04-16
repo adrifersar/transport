@@ -4,6 +4,8 @@ import { ValidationPipe } from '@nestjs/common';
 import { ConfigService } from '@nestjs/config';
 import { AppConfig } from './config/app.config';
 import { DocumentBuilder, SwaggerModule } from '@nestjs/swagger';
+import * as yaml from 'js-yaml';
+import * as fs from 'fs';
 
 async function bootstrap() {
   const app = await NestFactory.create(AppModule);
@@ -22,7 +24,6 @@ async function bootstrap() {
       whitelist: true,
       forbidNonWhitelisted: true,
       transform: true,
-
     }),
   );
 
@@ -39,7 +40,8 @@ async function bootstrap() {
       'JWT-auth',
     )
     .build();
-  const document = () => SwaggerModule.createDocument(app, config);
+  //const document = () => SwaggerModule.createDocument(app, config);
+  const document = SwaggerModule.createDocument(app, config);
   SwaggerModule.setup('api', app, document, {
     swaggerOptions: {
       persistAuthorization: true,
@@ -49,6 +51,15 @@ async function bootstrap() {
       tagsSorter: 'alpha',
     },
   });
+
+  try {
+    const yamlString = yaml.dump(document, { indent: 2 });
+    fs.writeFileSync('./swagger.yaml', yamlString);
+    console.log('Documentación Swagger exportada a swagger.yaml');
+  } catch (err) {
+    console.error('Error al generar el swagger.yaml:', err);
+  }
+
   await app.listen(appConfig.port, () => {
     console.log('listening in port ' + appConfig.port);
   });
